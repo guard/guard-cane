@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["justin@justincampbell.me"]
   gem.summary       = "Guard plugin for Cane"
   gem.description   = "Guard::Cane automatically runs Cane when files change"
-  gem.homepage      = "https://github.com/justincampbell/guard-cane"
+  gem.homepage      = "https://github.com/guard/guard-cane"
 
   gem.files         = `git ls-files`.split($/)
   gem.require_paths = ["lib"]
