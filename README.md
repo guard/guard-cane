@@ -25,7 +25,7 @@ $ guard init cane
 This will place the following in your `Guardfile`:
 
 ```rb
-guard :cane, cli: "--color" do
+guard :cane do
   watch(/.*\.rb/)
 end
 ```
