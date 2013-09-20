@@ -26,7 +26,7 @@ This will place the following in your `Guardfile`:
 
 ```rb
 guard :cane do
-  watch(/.*\.rb/)
+  watch(%r{^app/(.+)\.rb$})
 end
 ```
 
