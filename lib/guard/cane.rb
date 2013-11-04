@@ -8,8 +8,8 @@ module Guard
       run_all_on_start: true
     }
 
-    SUCCESS = ["Passed", { title: "Passed", image: :success }]
-    FAILED = ["Failed", { title: "Failed", image: :failed }]
+    SUCCESS = ["Passed", { title: "Cane", image: :success }]
+    FAILED = ["Failed", { title: "Cane", image: :failed }]
 
     attr_reader :last_result, :options
 
