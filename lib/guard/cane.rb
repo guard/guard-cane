@@ -29,7 +29,8 @@ module Guard
       cane
     end
 
-    def run_on_changes(paths)
+    def run_on_modifications(paths)
+      UI.info "run on modifications #{paths.inspect}"
       cane paths
     end
 

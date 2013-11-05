@@ -45,15 +45,15 @@ describe Guard::Cane do
     end
   end
 
-  describe "#run_on_changes" do
-    subject(:run_on_changes) { guard.run_on_changes(paths) }
+  describe "#run_on_modifications" do
+    subject(:run_on_modifications) { guard.run_on_modifications(paths) }
 
     let(:paths) { %w[a b c] }
 
     it "runs cane with the paths" do
       guard.should_receive(:cane).with(paths)
 
-      run_on_changes
+      run_on_modifications
     end
   end
 
