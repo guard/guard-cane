@@ -29,7 +29,7 @@ module Guard
       cane
     end
 
-    def run_on_changes(paths)
+    def run_on_modifications(paths)
       cane paths
     end
 
