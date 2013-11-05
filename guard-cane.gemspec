@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = 'guard-cane'
-  gem.version       = '0.1.3'
+  gem.version       = '0.1.4'
   gem.authors       = ["Justin Campbell"]
   gem.email         = ["justin@justincampbell.me"]
   gem.summary       = "Guard plugin for Cane"
