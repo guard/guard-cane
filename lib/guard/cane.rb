@@ -30,7 +30,6 @@ module Guard
     end
 
     def run_on_modifications(paths)
-      UI.info "run on modifications #{paths.inspect}"
       cane paths
     end
 
