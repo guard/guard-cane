@@ -30,7 +30,8 @@ module Guard
     end
 
     def run_on_modifications(paths)
-      cane paths
+      passed = cane paths
+      run_all if options[:all_after_pass] && passed
     end
 
     def cane(paths = [])

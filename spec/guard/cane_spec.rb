@@ -55,6 +55,26 @@ describe Guard::Cane do
 
       run_on_modifications
     end
+
+    context "with all_after_pass: true" do
+      let(:options) { { all_after_pass: true } }
+
+      it "does run all after pass" do
+        guard.stub(:cane).and_return(true)
+        guard.should_receive(:cane).with(paths)
+        guard.should_receive :run_all
+
+        run_on_modifications
+      end
+
+      it "does not run all if tests did not pass" do
+        guard.stub(:cane).and_return(false)
+        guard.should_receive(:cane).with(paths)
+        guard.should_not_receive :run_all
+
+        run_on_modifications
+      end
+    end
   end
 
   describe "#cane" do
