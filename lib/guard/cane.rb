@@ -5,7 +5,10 @@ module Guard
   # Defines the guard, which is automatically seen by Guard
   class Cane < Guard
     DEFAULTS = {
-      run_all_on_start: true
+      all_after_pass: false,
+      all_on_start: true,
+      cli: nil,
+      command: 'cane'
     }
 
     SUCCESS = ["Passed", { title: "Cane", image: :success }]
@@ -22,7 +25,7 @@ module Guard
     def start
       UI.info "Guard::Cane is running"
 
-      run_all if options[:run_all_on_start]
+      run_all if options[:all_on_start]
     end
 
     def run_all
@@ -55,7 +58,7 @@ module Guard
     def build_command(paths)
       command = []
 
-      command << (options[:command] || "cane")
+      command << options[:command]
 
       if paths.any?
         joined_paths = paths.join(',')

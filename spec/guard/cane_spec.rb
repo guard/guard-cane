@@ -24,8 +24,8 @@ describe Guard::Cane do
       start
     end
 
-    context "with run_all_on_start: false" do
-      let(:options) { { run_all_on_start: false } }
+    context "with all_on_start: false" do
+      let(:options) { { all_on_start: false } }
 
       it "does not run all" do
         guard.should_not_receive :run_all
@@ -39,7 +39,7 @@ describe Guard::Cane do
     subject(:run_all) { guard.run_all }
 
     it "runs cane with no arguments" do
-      guard.should_receive(:cane).with()
+      guard.should_receive(:cane).with(no_args)
 
       run_all
     end
@@ -86,7 +86,7 @@ describe Guard::Cane do
       guard.stub system: result
     end
 
-    it { should be_true }
+    it { should eq(true) }
 
     it "does not notify of success" do
       Guard::Notifier.should_not_receive(:notify)
@@ -97,7 +97,7 @@ describe Guard::Cane do
     context "when failed" do
       let(:result) { false }
 
-      it { should be_false }
+      it { should eq(false) }
 
       it "notifies of a failure" do
         Guard::Notifier.should_receive(:notify).with(*described_class::FAILED)
