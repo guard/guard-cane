@@ -10,6 +10,7 @@ Gem::Specification.new do |gem|
   gem.summary       = "Guard plugin for Cane"
   gem.description   = "Guard::Cane automatically runs Cane when files change"
   gem.homepage      = "https://github.com/guard/guard-cane"
+  gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($/)
   gem.require_paths = ["lib"]
