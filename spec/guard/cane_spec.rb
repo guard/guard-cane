@@ -1,6 +1,8 @@
-require 'spec_helper'
+require "guard/compat/test/helper"
 
-describe Guard::Cane do
+require "guard/cane"
+
+RSpec.describe Guard::Cane do
   let(:options) { {} }
   let(:paths) { [] }
 
