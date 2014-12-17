@@ -19,7 +19,7 @@ module Guard
     end
 
     def start
-      UI.info "Guard::Cane is running"
+      Compat::UI.info "Guard::Cane is running"
 
       run_all if options[:run_all_on_start]
     end
@@ -36,14 +36,14 @@ module Guard
     def cane(paths = [])
       command = build_command(paths)
 
-      UI.info "Running Cane: #{command}"
+      Compat::UI.info "Running Cane: #{command}"
 
       result = system command
 
       if result
-        Notifier.notify(*SUCCESS) if last_result == false
+        Compat::UI.notify(*SUCCESS) if last_result == false
       else
-        Notifier.notify(*FAILED)
+        Compat::UI.notify(*FAILED)
       end
 
       @last_result = result
