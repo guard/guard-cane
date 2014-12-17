@@ -1,25 +1,25 @@
 require 'spec_helper'
 
 describe Guard::Cane do
-  subject { guard }
-  let(:guard) { described_class.new(watchers, options) }
-
   let(:options) { {} }
   let(:paths) { [] }
-  let(:watchers) { [] }
+
+  let(:guard) { described_class.new(options) }
+
+  subject { guard }
 
   before do
-    Guard::Notifier.stub :notify
+    allow(Guard::Notifier).to receive :notify
 
-    Guard::UI.stub :info
-    Guard::UI.stub :error
+    allow(Guard::UI).to receive :info
+    allow(Guard::UI).to receive :error
   end
 
   describe "#start" do
     subject(:start) { guard.start }
 
     it "runs all" do
-      guard.should_receive :run_all
+      expect(guard).to receive :run_all
 
       start
     end
@@ -28,7 +28,7 @@ describe Guard::Cane do
       let(:options) { { run_all_on_start: false } }
 
       it "does not run all" do
-        guard.should_not_receive :run_all
+        expect(guard).to_not receive :run_all
 
         start
       end
@@ -39,7 +39,7 @@ describe Guard::Cane do
     subject(:run_all) { guard.run_all }
 
     it "runs cane with no arguments" do
-      guard.should_receive(:cane).with()
+      expect(guard).to receive(:cane).with(no_args)
 
       run_all
     end
@@ -51,7 +51,7 @@ describe Guard::Cane do
     let(:paths) { %w[a b c] }
 
     it "runs cane with the paths" do
-      guard.should_receive(:cane).with(paths)
+      expect(guard).to receive(:cane).with(paths)
 
       run_on_modifications
     end
@@ -60,17 +60,17 @@ describe Guard::Cane do
       let(:options) { { all_after_pass: true } }
 
       it "does run all after pass" do
-        guard.stub(:cane).and_return(true)
-        guard.should_receive(:cane).with(paths)
-        guard.should_receive :run_all
+        allow(guard).to receive(:cane).and_return(true)
+        expect(guard).to receive(:cane).with(paths)
+        expect(guard).to receive :run_all
 
         run_on_modifications
       end
 
       it "does not run all if tests did not pass" do
-        guard.stub(:cane).and_return(false)
-        guard.should_receive(:cane).with(paths)
-        guard.should_not_receive :run_all
+        allow(guard).to receive(:cane).and_return(false)
+        expect(guard).to receive(:cane).with(paths)
+        expect(guard).to_not receive :run_all
 
         run_on_modifications
       end
@@ -83,24 +83,25 @@ describe Guard::Cane do
     let(:result) { true }
 
     before do
-      guard.stub system: result
+      allow(guard).to receive(:system).and_return result
     end
 
-    it { should be_true }
+    it { should be true }
 
     it "does not notify of success" do
-      Guard::Notifier.should_not_receive(:notify)
+      expect(Guard::Notifier).to_not receive(:notify)
 
-      cane.should == true
+      expect(cane).to be true
     end
 
     context "when failed" do
       let(:result) { false }
 
-      it { should be_false }
+      it { should be false }
 
       it "notifies of a failure" do
-        Guard::Notifier.should_receive(:notify).with(*described_class::FAILED)
+        expect(Guard::Notifier).to receive(:notify)
+        .with(*described_class::FAILED)
 
         cane
       end
@@ -108,13 +109,15 @@ describe Guard::Cane do
 
     context "when failing and then succeeding" do
       it "notifies of a success" do
-        guard.stub system: false
-        Guard::Notifier.should_receive(:notify).with(*described_class::FAILED)
+        allow(guard).to receive(:system).and_return false
+        expect(Guard::Notifier).to receive(:notify)
+        .with(*described_class::FAILED)
 
         guard.cane(paths)
 
-        guard.stub system: true
-        Guard::Notifier.should_receive(:notify).with(*described_class::SUCCESS)
+        allow(guard).to receive(:system).and_return true
+        expect(Guard::Notifier).to receive(:notify)
+        .with(*described_class::SUCCESS)
 
         guard.cane(paths)
       end
