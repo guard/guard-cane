@@ -1,9 +1,8 @@
-require 'guard'
-require 'guard/guard'
+require 'guard/compat/plugin'
 
 module Guard
   # Defines the guard, which is automatically seen by Guard
-  class Cane < Guard
+  class Cane < Plugin
     DEFAULTS = {
       run_all_on_start: true
     }
@@ -13,8 +12,8 @@ module Guard
 
     attr_reader :last_result, :options
 
-    def initialize(watchers = [], options = {})
-      super
+    def initialize(options = {})
+      super options
 
       @options = DEFAULTS.merge(options)
     end
