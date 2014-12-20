@@ -1,6 +1,8 @@
-require 'spec_helper'
+require "guard/compat/test/helper"
 
-describe Guard::Cane do
+require "guard/cane"
+
+RSpec.describe Guard::Cane do
   let(:options) { {} }
   let(:paths) { [] }
 
@@ -9,10 +11,9 @@ describe Guard::Cane do
   subject { guard }
 
   before do
-    allow(Guard::Notifier).to receive :notify
-
-    allow(Guard::UI).to receive :info
-    allow(Guard::UI).to receive :error
+    allow(Guard::Compat::UI).to receive :notify
+    allow(Guard::Compat::UI).to receive :info
+    allow(Guard::Compat::UI).to receive :error
   end
 
   describe "#start" do
@@ -89,7 +90,7 @@ describe Guard::Cane do
     it { should be true }
 
     it "does not notify of success" do
-      expect(Guard::Notifier).to_not receive(:notify)
+      expect(Guard::Compat::UI).to_not receive(:notify)
 
       expect(cane).to be true
     end
@@ -100,7 +101,7 @@ describe Guard::Cane do
       it { should be false }
 
       it "notifies of a failure" do
-        expect(Guard::Notifier).to receive(:notify)
+        expect(Guard::Compat::UI).to receive(:notify)
         .with(*described_class::FAILED)
 
         cane
@@ -110,13 +111,13 @@ describe Guard::Cane do
     context "when failing and then succeeding" do
       it "notifies of a success" do
         allow(guard).to receive(:system).and_return false
-        expect(Guard::Notifier).to receive(:notify)
+        expect(Guard::Compat::UI).to receive(:notify)
         .with(*described_class::FAILED)
 
         guard.cane(paths)
 
         allow(guard).to receive(:system).and_return true
-        expect(Guard::Notifier).to receive(:notify)
+        expect(Guard::Compat::UI).to receive(:notify)
         .with(*described_class::SUCCESS)
 
         guard.cane(paths)
